@@ -365,7 +365,7 @@ window.joinRoom = function() { playerName = document.getElementById("player-name
 
 window.hostStartGame = function(){ update(ref(db, "rooms/" + roomCode), { gameStarted: true }); }
 
-function startGame(){ score = 0; let timeLeft = 1800; document.getElementById("timer").innerText = Math.floor(timeLeft/60) + ":" + (timeLeft%60).toString().padStart(2,'0'); timerInterval = setInterval(() => { timeLeft--; document.getElementById("timer").innerText = Math.floor(timeLeft/60) + ":" + (timeLeft%60).toString().padStart(2,'0'); if(timeLeft <= 0) { clearInterval(timerInterval); navigate("page-scoreboard"); } }, 1000); }
+function startGame(){ score = 0; let timeLeft = 180; document.getElementById("timer").innerText = Math.floor(timeLeft/60) + ":" + (timeLeft%60).toString().padStart(2,'0'); timerInterval = setInterval(() => { timeLeft--; document.getElementById("timer").innerText = Math.floor(timeLeft/60) + ":" + (timeLeft%60).toString().padStart(2,'0'); if(timeLeft <= 0) { clearInterval(timerInterval); navigate("page-scoreboard"); } }, 1000); }
 
 window.renderProblem = function() {
     if (currentLevelIndex >= gameData.length) {
@@ -443,35 +443,14 @@ window.checkAnswers = function() {
     
 window.nextLevel = function() {
     currentLevelIndex++;
-    
     if(currentLevelIndex >= gameData.length) {
-        // 1. Calculate the time taken
-        const endTime = new Date();
-        const totalSeconds = Math.floor((endTime - startTime) / 1000);
-        
-        // 2. Format time into minutes and seconds
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        const timeString = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-
-        // 3. Show the final results
-        alert(
-            "🎉 CONGRATULATIONS!\n" +
-            "You have mastered the Rational Cryptogram!\n\n" +
-            "🏆 Final Score: " + totalScore + " points\n" +
-            "⏱️ Total Time: " + timeString
-
-    // Smooth exit transition
-    const triviaPage = document.getElementById("page-trivia");
-    triviaPage.style.opacity = "0";
-    triviaPage.style.transform = "scale(0.9)";
-
-    setTimeout(() => {
-        renderProblem();
-        navigate("page-game");
-        triviaPage.style.opacity = ""; // Reset style for next use
-        triviaPage.style.transform = "";
-    }, 400);
+        const totalSeconds = Math.floor((new Date() - startTime) / 1000);
+        alert(`🏆 Game Over!\nScore: ${score}\nTime: ${Math.floor(totalSeconds/60)}m ${totalSeconds%60}s`);
+        location.reload(); 
+        return;
+    }
+    window.renderProblem();
+    window.navigate("page-game");
 };
 
 window.navigate = function(pageId) {
