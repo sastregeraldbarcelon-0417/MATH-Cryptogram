@@ -157,7 +157,7 @@ input {
         <div style="display: flex; justify-content: space-between; align-items: center;">
          <button onclick="toggleFullScreen()" style="width: auto; padding: 5px 15px; font-size: 0.8rem; margin-bottom: 10px; background: rgba(255,255,255,0.1); color: white; border: 1px solid var(--primary);"> ⛶ FULL SCREEN</button>
             <span id="lvl-indicator" style="color: var(--primary); font-weight: bold;">LEVEL 1</span>
-            <span id="timer">3:00</span>
+            <span id="timer">03:00</span>
         </div>
         <div class="phrase-display" id="cipher-output">_ _ _ _</div>
         <div id="clue-text" class="clue-box"></div>
@@ -439,9 +439,6 @@ window.checkAnswers = function() {
         alert("The cryptogram is not yet fully decoded!");
     }
 };
-
-window.nextLevel = function() {
-    currentLevelIndex++;
     
 window.nextLevel = function() {
     currentLevelIndex++;
